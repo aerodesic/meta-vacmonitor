@@ -1,0 +1,20 @@
+[Unit]
+Description=Starts system updater service
+Before=NetworkManager.service
+Requires=fb1.service
+After=fb1.service systemd-udev-trigger.service systemd-udevd.service
+Requires=psplash-vacmonitor.service
+After=psplash-vacmonitor.service
+DefaultDependencies=no
+
+[Service]
+User=root
+Type=oneshot
+KillMode=none
+Environment=USERHOMEDIR=/home/@RHPRO_USER@
+ExecStart=/usr/sbin/systemupdater
+
+[Install]
+WantedBy=sysinit.target
+
+

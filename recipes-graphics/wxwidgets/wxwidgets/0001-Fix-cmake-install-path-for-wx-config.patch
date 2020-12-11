@@ -1,0 +1,29 @@
+diff --git a/build/cmake/install.cmake b/build/cmake/install.cmake
+index 5e30a933f2..9adb8bb32a 100644
+--- a/build/cmake/install.cmake
++++ b/build/cmake/install.cmake
+@@ -45,11 +45,22 @@ elseif(UNIX)
+                     WORLD_EXECUTE WORLD_READ
+         )
+ 
++    # If installing local for yocto, strip / from prefix
++    if(CMAKE_INSTALL_LOCAL_ONLY STREQUAL "yocto")
++        set(SYMLINK_SOURCE "..")
++        set(SYMLINK_LOCATION "${DESTDIR}${CMAKE_INSTALL_PREFIX}")
++        message(STATUS "symlink: SYMLINK_LOCATION ${SYMLINK_LOCATION} SYMLINK_SOURCE ${SYMLINK_SOURCE}")
++    else()
++        set(SYMLINK_SOURCE "${CMAKE_INSTALL_PREFIX}")
++        set(SYMLINK_LOCATION, "${CMAKE_INSTALL_PREFIX}")
++        message(STATUS "symlink: CMAKE_INSTALL_PREFIX is ${CMAKE_INSTALL_PREFIX}")
++    endif()
++
+     install(DIRECTORY DESTINATION "bin")
+     install(CODE "execute_process( \
+         COMMAND ${CMAKE_COMMAND} -E create_symlink \
+-        ${CMAKE_INSTALL_PREFIX}/lib/wx/config/${wxBUILD_FILE_ID} \
+-        ${CMAKE_INSTALL_PREFIX}/bin/wx-config \
++        ${SYMLINK_SOURCE}/lib/wx/config/${wxBUILD_FILE_ID} \
++        ${SYMLINK_LOCATION}/bin/wx-config \
+         )"
+     )
+ endif()

@@ -1,0 +1,1 @@
+require vacmonitor-version.inc

@@ -1,0 +1,22 @@
+[Unit]
+Description=Vacmonitor Display
+Requires=wpa_supplicant@wlan0.service
+After=wpa_supplicant@wlan0.service
+Requires=weston.service
+After=weston.service
+Requires=systemupdater.service
+After=systemupdater.service
+
+[Service]
+User=root
+Type=simple
+Environment=DISPLAY=:0
+Environment=USERHOMEDIR=/home/@ORIGINAL_USER@
+ExecStartPre=/usr/sbin/wait-for-systemupdater
+ExecStart=/usr/bin/vacmonitor
+RestartSec=3
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

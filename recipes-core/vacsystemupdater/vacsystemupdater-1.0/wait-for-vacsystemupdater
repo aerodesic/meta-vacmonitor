@@ -1,0 +1,13 @@
+#!/bin/bash
+# Kluge: if vacsystemupdater.service contains a #Killmode=none, replace with KillMode=none
+# This gets around the problem if vacsystemupdater.service being restarted while updating
+# vacsystemupdater.service...
+if sed -i 's,# KillMode=none,KillMode=none,g' /etc/systemd/system/sysinit.target.wants/vacsystemupdater.service; then
+  echo "vacsystemupdater-service modified with KillMode=none"
+  /usr/systemctl restart vacsystemupdater.service
+fi
+
+# Wait for vacsystemupdater to finish (/run/ file to appear)
+while ! [ -e /run/vacsystemupdater ]; do
+  sleep 1
+done

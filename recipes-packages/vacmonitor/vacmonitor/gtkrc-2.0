@@ -1,0 +1,10 @@
+style "vacmonitor-scrollbar"
+{
+        GtkScrollbar::has-backward-stepper = 0
+        GtkScrollbar::has-forward-stepper = 0
+        GtkScrollbar::slider-width = 50
+        GtkScrollbar::fixed-slider-length = 0
+        GtkScrollbar::min-slider-length = 50
+}
+class "GtkWidget"    style "vacmonitor-scrollbar"
+

@@ -1,0 +1,19 @@
+[Unit]
+Description=Starts system updater service
+Requires=fb1.service
+After=fb1.service systemd-udev-trigger.service systemd-udevd.service
+# Requires=psplash-rhpro.service
+After=psplash-rhpro.service
+Before=systemupdater
+DefaultDependencies=no
+
+[Service]
+User=root
+Type=oneshot
+Environment=USERHOMEDIR=/home/rhpro
+ExecStart=/usr/sbin/rootresizer.sh
+
+[Install]
+WantedBy=sysinit.target
+
+

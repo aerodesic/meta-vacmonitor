@@ -1,0 +1,18 @@
+[Unit]
+Description=Weston Wayland Compositor
+RequiresMountsFor=/run
+Requires=psplash-rhpro.service
+After=psplash-rhpro.service
+
+[Service]
+User=root
+Type=forking
+ExecStartPre=/usr/sbin/wait-for-framebuffer
+ExecStartPre=/usr/sbin/weston-wait-psplash
+EnvironmentFile=/run/frame-buffer
+EnvironmentFile=/etc/default/weston-systemd
+ExecStart=/usr/bin/weston-start -- $OPTARGS --device=${FRAMEBUFFER_DEVICE}
+
+[Install]
+WantedBy=multi-user.target
+

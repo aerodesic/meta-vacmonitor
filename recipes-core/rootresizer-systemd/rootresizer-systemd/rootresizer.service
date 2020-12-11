@@ -1,0 +1,19 @@
+[Unit]
+Description=Resize root first time run
+Requires=fb1.service
+After=fb1.service systemd-udev-trigger.service systemd-udevd.service
+Requires=psplash-vacmonitor.service
+After=psplash-vacmonitor.service
+Before=vacsystemupdater.service
+DefaultDependencies=no
+
+[Service]
+User=root
+Type=oneshot
+Environment=USERHOMEDIR=/home/vacmonitor
+ExecStart=/usr/sbin/rootresizer
+
+[Install]
+WantedBy=sysinit.target
+
+
